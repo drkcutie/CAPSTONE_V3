@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class playlistTabController implements Initializable {
+public class PlaylistTabController implements Initializable {
 
     @FXML
     private BorderPane albumContent;

@@ -1,5 +1,10 @@
 package com.example.capstone_2;
 
-public class mainController {
+import javafx.fxml.FXML;
 
+public class mainController {
+//@FXML
+//    private PlaylistTabController playlistTabController;
+//@FXML
+//    private
 }

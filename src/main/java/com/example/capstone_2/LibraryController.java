@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -13,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
-public class libraryController {
+public class LibraryController {
 
     @FXML
     private ImageView addPlaylist;
