@@ -28,6 +28,8 @@ import java.net.URL;
 import java.util.*;
 
 public class PlaylistTabController implements Initializable {
+    @FXML
+    private mainController main;
 
     @FXML
     private BorderPane albumContent;
@@ -290,14 +292,14 @@ public class PlaylistTabController implements Initializable {
         playlistContentList.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) { // You can adjust the click count as needed
                 currentSongs = playlistContentList.getSelectionModel().getSelectedItem();
-                selectionController.setFiles(currentSongs, SelectionController.MediaType.PLAYLIST);
+                main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.PLAYLIST);
             }
         });
 
         artistContentList.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 currentSongs = artistContentList.getSelectionModel().getSelectedItem();
-                selectionController.setFiles(currentSongs, SelectionController.MediaType.ARTIST);
+                main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.ARTIST);
 
             }
         });
@@ -306,11 +308,15 @@ public class PlaylistTabController implements Initializable {
             if (event.getClickCount() == 1) {
                 currentSongs = albumContentList.getSelectionModel().getSelectedItem();
                 System.out.println(currentSongs);
-                selectionController.setFiles(currentSongs, SelectionController.MediaType.ALBUM);
+                main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.ALBUM);
             }
         });
 
 
 
+    }
+
+    public void init(mainController mainController) {
+        main = mainController;
     }
 }

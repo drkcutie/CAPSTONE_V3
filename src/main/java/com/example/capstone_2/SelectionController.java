@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 
 public class SelectionController {
+    private mainController main;
     private File directory;
     private File[] files;
     private static ArrayList<File> songs = new ArrayList<>();
@@ -66,6 +67,11 @@ public class SelectionController {
     FooterController footerControllerController;
 
     public String key;
+
+    public void init(mainController mainController) {
+        main = mainController;
+    }
+
     public enum MediaType {
         PLAYLIST,
         ALBUM
@@ -102,7 +108,7 @@ public class SelectionController {
                 example selectedExample = tableMusic.getSelectionModel().getSelectedItem();
                 if (selectedExample != null) {
                     int index = handleDoubleClick(selectedExample);
-                    footerControllerController.setSongfromPlaylist(index, songs);
+                    main.FooterController.setSongfromPlaylist(index, songs);
 
                 }
             }
