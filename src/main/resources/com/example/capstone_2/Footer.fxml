@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #202020;" stylesheets="@footer.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone_2.FooterController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" prefWidth="1113.0" style="-fx-background-color: #202020;" stylesheets="@footer.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone_2.FooterController">
    <top>
       <HBox alignment="CENTER" prefHeight="44.0" prefWidth="862.0" spacing="10.0">
          <children>
@@ -34,7 +34,7 @@
       </HBox>
    </top>
    <center>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="currentDuration" text="0:00" HBox.hgrow="NEVER" />
             <Slider fx:id="progressSlider" maxWidth="500.0" minWidth="200.0" HBox.hgrow="ALWAYS" />
@@ -43,14 +43,20 @@
       </HBox>
    </center>
    <left>
-      <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="188.0" BorderPane.alignment="CENTER">
+      <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="226.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <ImageView fx:id="songImage" fitHeight="53.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <ImageView fx:id="songImage" fitHeight="53.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></ImageView>
+            <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="songLabel" text="Title" />
-                  <Label fx:id="artistLabel" text="Artist" />
+                  <Label fx:id="songLabel" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="321.0" text="Title" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="artistLabel" maxWidth="1.7976931348623157E308" prefHeight="19.0" prefWidth="419.0" text="Artist" VBox.vgrow="ALWAYS" />
                </children>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
             </VBox>
          </children>
          <BorderPane.margin>

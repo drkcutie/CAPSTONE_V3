@@ -16,6 +16,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
@@ -106,7 +107,8 @@ public class FooterController implements Initializable {
         shuffleButton.setImage(images.get("shuffle-untoggled"));
         volumeImage.setImage(images.get("volume-max"));
         repeatButton.setImage(images.get("repeat-untoggled"));
-
+        songLabel.setMinHeight(Region.USE_PREF_SIZE);
+        songLabel.setMaxWidth(Region.USE_PREF_SIZE);
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {

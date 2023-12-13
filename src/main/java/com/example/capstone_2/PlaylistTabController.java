@@ -316,7 +316,7 @@ public class PlaylistTabController implements Initializable {
             if (event.getClickCount() == 1) {
                 currentSongs = playlistContentList.getSelectionModel().getSelectedItem();
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.PLAYLIST);
-                Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));
+
             }
         });
 
@@ -324,7 +324,7 @@ public class PlaylistTabController implements Initializable {
             if (event.getClickCount() == 1) {
                 currentSongs = artistContentList.getSelectionModel().getSelectedItem();
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.ARTIST);
-                Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));
+
             }
         });
 
@@ -333,7 +333,7 @@ public class PlaylistTabController implements Initializable {
                 currentSongs = albumContentList.getSelectionModel().getSelectedItem();
                 System.out.println(currentSongs);
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.ALBUM);
-                Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));
+
             }
         });
 

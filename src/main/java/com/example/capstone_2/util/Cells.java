@@ -24,6 +24,7 @@ public class Cells {
         Image.setFitWidth(30);
         Image.setFitHeight(30);
 
+
     }
 
 

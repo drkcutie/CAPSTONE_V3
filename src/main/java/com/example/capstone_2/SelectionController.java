@@ -1,16 +1,25 @@
 package com.example.capstone_2;
 
+import com.sun.javafx.scene.control.skin.Utils;
 import com.example.capstone_2.util.*;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javafx.scene.media.MediaPlayer;
@@ -25,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 
 
 public class SelectionController {
@@ -63,6 +73,11 @@ public class SelectionController {
     private  TableColumn<Cells, String> title;
     @FXML
     private TableColumn<Cells,Image> SongImg;
+    @FXML
+    private ImageView playlistImage;
+    @FXML
+    //Used to justify items.. acts like a div.
+    private HBox backgroundImage;
     private Parent root;
     FooterController footerControllerController;
 
@@ -79,7 +94,7 @@ public class SelectionController {
     }
     static ObservableList<Cells> data = FXCollections.observableArrayList();
 
-
+    TranslateTransition translateTransition;
 
     @FXML
     void initialize() {
@@ -103,6 +118,9 @@ public class SelectionController {
 
                 }
             }
+
+
+
         });
 
     }
@@ -132,21 +150,32 @@ public class SelectionController {
         // Return the index
         return selectedCells.getNumber()-1;
     }
-    public void updatePlaylistName(String newName) {
 
-        Platform.runLater(() -> playlistName.setText(newName));
-        System.out.println("The name was " + newName);
+    public void adjustPlaylistName()
+    {
 
+    }
+    public void updatePlaylistBar(String name, String path) throws FileNotFoundException {
+       if(name.length() > 22)
+       {
+           playlistName.setStyle("-fx-font-size: 36");
+       }
+       else {
+
+        playlistName.setStyle("-fx-font-size: 50");
+       }
+        playlistName.setText(name);
+        Image img = Functions.extractAndDisplayAlbumCover(path);
+        playlistImage.setImage(img);
+
+
+        backgroundImage.setStyle("-fx-background-color: " + StylesHandler.getLinearGradient());
     }
     public void setFiles(String key, MediaType type) {
         if(Objects.equals(this.key, key))
             return;
         songs.clear();
         data.clear();
-        Platform.runLater(() -> {
-            playlistName.setText(key);
-
-        });
 
         this.key = key;
         ArrayList<String> temp = new ArrayList<>();
@@ -168,6 +197,13 @@ public class SelectionController {
             System.out.println("File Path = " +path + "\n" );
             songs.add(file);
         }
+
+        try {
+            updatePlaylistBar(key, songs.get(0).getPath());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         setPlaylist();
         setCells();
 
