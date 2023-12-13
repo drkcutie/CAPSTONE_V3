@@ -6,7 +6,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -15,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -122,6 +126,14 @@ public class FooterController implements Initializable {
                 double end = mediaPlayer.getTotalDuration().toSeconds();
                 double newPosition = progressSlider.getValue() * 0.01 * end;
                 mediaPlayer.seek(Duration.seconds(newPosition));
+            }
+        });
+
+        songImage.setOnMouseClicked(event -> {
+            try {
+                handleSongImageButtonClick();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
@@ -344,6 +356,20 @@ public class FooterController implements Initializable {
 
         setCurrentSong();
 
+    }
+
+    private void handleSongImageButtonClick() throws IOException {
+        // Create a new scene (replace this with your actual scene creation logic)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModalPlayer.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root);
+
+        // Create a new stage and set the scene
+        Stage newStage = new Stage();
+        newStage.setScene(newScene);
+
+        // Show the new stage
+        newStage.show();
     }
 
 }

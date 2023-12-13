@@ -1,0 +1,9 @@
+.PlayButton{
+    -fx-background-image: url("/src/img/icons/wuht.png");
+}
+.PlayButton:hover{
+    -fx-background-image: url("/src/img/icons/wuht.png");
+}
+.PlayButton:pressed{
+    -fx-background-image: url("/src/img/icons/wuht.png");
+}

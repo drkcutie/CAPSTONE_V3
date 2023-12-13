@@ -3,7 +3,10 @@ package com.example.capstone_2;
 import com.example.capstone_2.util.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.util.Duration;
@@ -39,7 +42,7 @@ public class SelectionController {
     private ResourceBundle resources;
 
     @FXML
-    private Text PlaylistName;
+    private Label playlistName;
 
     @FXML
     private URL location;
@@ -89,7 +92,7 @@ public class SelectionController {
         assert tableMusic != null : "fx:id=\"tableMusic\" was not injected: check your FXML file 'Selection.fxml'.";
         assert timeDuration != null : "fx:id=\"timeDuration\" was not injected: check your FXML file 'Selection.fxml'.";
         assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'Selection.fxml'.";
-        assert PlaylistName != null : "fx:id=\"PlaylistName\" was not injected: check your FXML file 'Selection.fxml'.";
+        assert playlistName != null : "fx:id=\"PlaylistName\" was not injected: check your FXML file 'Selection.fxml'.";
 
         setCells();
 
@@ -119,10 +122,15 @@ public class SelectionController {
     public void setCells()
     {
         Number.setCellValueFactory(new PropertyValueFactory<>("number"));  // Use "number" instead of "Number"
+        setupHandCursorForColumn(Number);
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        setupHandCursorForColumn(title);
         album.setCellValueFactory(new PropertyValueFactory<>("album"));
+        setupHandCursorForColumn(album);
         timeDuration.setCellValueFactory(new PropertyValueFactory<>("timeDuration"));
+        setupHandCursorForColumn(timeDuration);
         SongImg.setCellValueFactory(new PropertyValueFactory<>("Image"));
+        setupHandCursorForColumn(SongImg);
         tableMusic.setItems(data);
 
     }
@@ -136,13 +144,19 @@ public class SelectionController {
         // Return the index
         return selectedExample.getNumber()-1;
     }
+    public void updatePlaylistName(String newName) {
+
+        Platform.runLater(() -> playlistName.setText(newName));
+        System.out.println("The name was " + newName);
+
+    }
     public void setFiles(String key, MediaType type) {
         if(Objects.equals(this.key, key))
             return;
         songs.clear();
         data.clear();
         Platform.runLater(() -> {
-            PlaylistName.setText(key);
+            playlistName.setText(key);
 
         });
 
@@ -169,6 +183,40 @@ public class SelectionController {
         setPlaylist();
         setCells();
 
+    }
+    private <T> void setupHandCursorForColumn(TableColumn<example, T> column) {
+        column.setCellFactory(col -> new TableCell<example, T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    setCursor(Cursor.DEFAULT);
+                } else {
+                    setText(item.toString());
+                    setCursor(Cursor.HAND); // Set the cursor to hand when the cell is not empty
+                }
+            }
+
+            {
+                // Handle mouse events directly in the cell factory
+                setOnMouseEntered(event -> {
+                    // Change the cursor to hand when the mouse enters the cell
+                    if (getItem() != null) {
+                        getScene().setCursor(Cursor.HAND);
+                    }
+                });
+
+                setOnMouseExited(event -> {
+                    // Change the cursor back to the default when the mouse exits the cell
+                    if (getItem() != null) {
+                        getScene().setCursor(Cursor.DEFAULT);
+                    }
+                });
+            }
+        });
     }
 
 
