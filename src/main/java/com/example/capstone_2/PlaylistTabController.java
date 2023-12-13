@@ -244,47 +244,88 @@ public class PlaylistTabController implements Initializable {
 
             @Override
             protected void updateItem(String name, boolean empty) {
-
                 super.updateItem(name, empty);
+
                 if (empty) {
                     img.setImage(null);
                     setText(null);
                     setGraphic(null);
                 } else {
                     setText(name);
-                    img.setFitWidth(50);
-                    img.setFitHeight(50);
-                    img.setPreserveRatio(true);
-                    img.setImage(defaultArtistImage);
-                    setGraphic(img);
+
+                    if (Artist.artistMap.containsKey(name) && !Artist.artistMap.get(name).isEmpty()) {
+                        String firstFilePath = Artist.artistMap.get(name).get(0);
+                        Image image = Functions.extractAndDisplayAlbumCover(firstFilePath);
+
+                        if (image != null) {
+                            img.setFitWidth(50);
+                            img.setFitHeight(50);
+                            img.setPreserveRatio(true);
+                            img.setImage(image);
+                            setGraphic(img);
+                        } else {
+                            img.setFitWidth(50);
+                            img.setFitHeight(50);
+                            img.setPreserveRatio(true);
+                            img.setImage(defaultArtistImage);
+                            setGraphic(img);
+                        }
+                    } else {
+                        img.setFitWidth(50);
+                        img.setFitHeight(50);
+                        img.setPreserveRatio(true);
+                        img.setImage(defaultArtistImage);
+                        setGraphic(img);
+                    }
                 }
             }
         });
+
         albumContentList.getItems().addAll(Albums.getAllAlbums());
         albumContentList.setCellFactory(param -> new ListCell<String>() {
             ImageView img = new ImageView();
 
             @Override
             protected void updateItem(String name, boolean empty) {
-
                 super.updateItem(name, empty);
+
                 if (empty) {
                     img.setImage(null);
                     setText(null);
                     setGraphic(null);
                 } else {
                     setText(name);
-                    img.setFitWidth(40);
-                    img.setFitHeight(40);
-                    img.setPreserveRatio(true);
-                    img.setImage(defaultAlbumImage);
-                    setGraphic(img);
+                    if (Albums.albumMap.containsKey(name) && !Albums.albumMap.get(name).isEmpty()) {
+                        String firstFilePath = Albums.albumMap.get(name).get(0);
+                        Image image = Functions.extractAndDisplayAlbumCover(firstFilePath);
+
+                        if (image != null) {
+                            img.setFitWidth(40);
+                            img.setFitHeight(40);
+                            img.setPreserveRatio(true);
+                            img.setImage(image);
+                            setGraphic(img);
+                        } else {
+                            img.setFitWidth(40);
+                            img.setFitHeight(40);
+                            img.setPreserveRatio(true);
+                            img.setImage(defaultAlbumImage);
+                            setGraphic(img);
+                        }
+                    } else {
+                        img.setFitWidth(40);
+                        img.setFitHeight(40);
+                        img.setPreserveRatio(true);
+                        img.setImage(defaultAlbumImage);
+                        setGraphic(img);
+                    }
                 }
             }
         });
 
+
         playlistContentList.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) { // You can adjust the click count as needed
+            if (event.getClickCount() == 1) {
                 currentSongs = playlistContentList.getSelectionModel().getSelectedItem();
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.PLAYLIST);
                 Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));

@@ -17,11 +17,6 @@ public class LibraryController {
     @FXML
     private ImageView addPlaylist;
 
-@FXML
-void initialize()
-{
-    addPlaylist.setImage(FooterController.images.get("AddPlaylist"));
-}
     @FXML
     void addPlaylist(MouseEvent event) {
 
@@ -75,5 +70,10 @@ void initialize()
                 System.err.println("Failed to create the new playlist folder.");
             }
         }
+    }
+    @FXML
+    void initialize()
+    {
+        addPlaylist.setImage(FooterController.images.get("AddPlaylist"));
     }
 }
