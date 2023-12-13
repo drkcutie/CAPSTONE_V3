@@ -4,7 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 
 public class mainController {
-@FXML
+    public BorderPane Main;
+    @FXML
 private PlaylistTabController PlaylistController;
 @FXML
 SelectionController SelectionController;
@@ -20,6 +21,6 @@ FooterController FooterController;
 
     PlaylistController.init(this);
     SelectionController.init(this);
-
+    FooterController.init(this);
 }
 }

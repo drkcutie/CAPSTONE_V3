@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -56,6 +57,8 @@ public class FooterController implements Initializable {
     @FXML
     private  ImageView volumeImage;
 
+    private mainController main;
+
     private Media media;
     FileInputStream fileInputStream;
     private Timer timer;
@@ -75,6 +78,10 @@ public class FooterController implements Initializable {
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
     private int songNumber, prevSong = 0;
 
+    public void init(mainController mainController)
+    {
+        main = mainController;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -359,17 +366,29 @@ public class FooterController implements Initializable {
     }
 
     private void handleSongImageButtonClick() throws IOException {
+
+//
+//        // Create a new stage and set the scene
+//        Stage newStage = new Stage();
+//        newStage.setScene(newScene);
+//
+//        // Show the new stage
+//        newStage.show();
+
+        Stage newstage = new Stage();
+        newstage.initModality(Modality.APPLICATION_MODAL);
+
         // Create a new scene (replace this with your actual scene creation logic)
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ModalPlayer.fxml"));
         Parent root = loader.load();
         Scene newScene = new Scene(root);
 
-        // Create a new stage and set the scene
-        Stage newStage = new Stage();
-        newStage.setScene(newScene);
+        newstage.setScene(newScene);
 
-        // Show the new stage
-        newStage.show();
+        Stage parentStage = (Stage) main.Main.getScene().getWindow();
+        newstage.initOwner(parentStage);
+
+        newstage.showAndWait();
     }
 
 }
