@@ -1,0 +1,58 @@
+/*======================================================================
+
+to add this to our javafx, simple copypaste the code below
+scene.getStylesheets().add(getClass().getResource("footer.css").toExternalForm());
+
+========================================================================*/
+.label {
+    -fx-text-fill: white;
+
+}
+
+.borderPane {
+    -fx-background-color: #202020;
+}
+
+.label, .letter, .text-field {
+    -fx-font-family: verdana;
+    -fx-font-size: 13px;
+}
+
+#songLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+#artistLabel {
+    -fx-font-size: 15px;
+    -fx-text-fill: #B6B6B6;
+}
+
+/*======================================================================*/
+.slider {
+    -fx-background-color: transparent;
+}
+
+.slider .track {
+    -fx-default-track: white;
+}
+
+.slider .track:filled {
+    -fx-background-color: green;
+}
+
+.slider .thumb {
+    -fx-background-color: white;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: derive(green, 20%);
+}
+
+.slider .thumb:pressed {
+    -fx-background-color: derive(green, 20%);
+}
+
+.root {
+    -fx-background-color: #202020;
+}

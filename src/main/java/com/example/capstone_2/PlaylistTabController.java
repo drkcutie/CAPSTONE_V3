@@ -30,6 +30,8 @@ import java.util.*;
 public class PlaylistTabController implements Initializable {
     @FXML
     private mainController main;
+    @FXML
+    private LibraryController LibraryController;
 
     @FXML
     private BorderPane albumContent;
@@ -102,16 +104,7 @@ public class PlaylistTabController implements Initializable {
         absolutePathAlbum = absolutePathAlbum.replace("\\", "/");
 
 
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("selection.fxml"));
-        try {
-             root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        SelectionController selectionController = loader.getController();
-
+        LibraryController.initialize();
 
 
         try {

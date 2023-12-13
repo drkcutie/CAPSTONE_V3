@@ -62,7 +62,7 @@ public class FooterController implements Initializable {
     private ArrayList<File> songs;
 
 
-    private Map<String, Image> images = new HashMap<String, Image>();
+   public static Map<String, Image> images = new HashMap<String, Image>();
 
     public String songName;
 
@@ -92,7 +92,9 @@ public class FooterController implements Initializable {
             images.put(name,image);
         }
 
-
+        shuffleButton.setImage(images.get("shuffle-untoggled"));
+        volumeImage.setImage(images.get("volume-max"));
+        repeatButton.setImage(images.get("repeat-untoggled"));
 
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override

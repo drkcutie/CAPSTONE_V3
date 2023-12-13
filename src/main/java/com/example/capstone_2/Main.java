@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class Main extends Application {
 
@@ -18,7 +19,16 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
-
+        /*URL css1 = getClass().getResource("footer.css");
+        URL css2 = getClass().getResource("library.css");
+        URL css3 = getClass().getResource("playlist.css");
+        URL css4 = getClass().getResource("selection.css");
+        if (css1 != null && css2 !=null) {
+            scene.getStylesheets().add(css1.toExternalForm());
+            scene.getStylesheets().add(css2.toExternalForm());
+        } else {
+            System.err.println("CSS resource 'footer.css' not found!");
+        }*/
         stage.setMinHeight(600);
         stage.setMinWidth(900);
         stage.setTitle("Prototype!");

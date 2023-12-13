@@ -1,0 +1,10 @@
+.label {
+    -fx-text-fill: white;
+    -fx-font-weight:bold;
+    -fx-font-family: verdana;
+    -fx-font-size: 30px;
+}
+
+.root {
+    -fx-background-color: #202020;
+}

@@ -17,6 +17,11 @@ public class LibraryController {
     @FXML
     private ImageView addPlaylist;
 
+@FXML
+void initialize()
+{
+    addPlaylist.setImage(FooterController.images.get("AddPlaylist"));
+}
     @FXML
     void addPlaylist(MouseEvent event) {
 
