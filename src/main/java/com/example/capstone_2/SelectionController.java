@@ -2,7 +2,6 @@ package com.example.capstone_2;
 
 import com.example.capstone_2.util.*;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -12,7 +11,6 @@ import javafx.scene.media.Media;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.scene.media.MediaPlayer;
@@ -26,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
@@ -51,21 +48,21 @@ public class SelectionController {
 
 
     @FXML
-    private  TableColumn<example, Integer> Number;
+    private  TableColumn<Cells, Integer> Number;
 
     @FXML
-    private  TableColumn<example, String> album;
+    private  TableColumn<Cells, String> album;
 
     @FXML
-    private  TableView<example> tableMusic;
+    private  TableView<Cells> tableMusic;
 
     @FXML
-    private  TableColumn<example, String> timeDuration;
+    private  TableColumn<Cells, String> timeDuration;
 
     @FXML
-    private  TableColumn<example, String> title;
+    private  TableColumn<Cells, String> title;
     @FXML
-    private TableColumn<example,Image> SongImg;
+    private TableColumn<Cells,Image> SongImg;
     private Parent root;
     FooterController footerControllerController;
 
@@ -80,7 +77,7 @@ public class SelectionController {
         ALBUM
         ,ARTIST
     }
-    static ObservableList<example> data = FXCollections.observableArrayList();
+    static ObservableList<Cells> data = FXCollections.observableArrayList();
 
 
 
@@ -96,21 +93,12 @@ public class SelectionController {
 
         setCells();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Footer.fxml"));
-
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-         footerControllerController = loader.getController();
 
         tableMusic.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                example selectedExample = tableMusic.getSelectionModel().getSelectedItem();
-                if (selectedExample != null) {
-                    int index = handleDoubleClick(selectedExample);
+                Cells selectedCells = tableMusic.getSelectionModel().getSelectedItem();
+                if (selectedCells != null) {
+                    int index = handleDoubleClick(selectedCells);
                     main.FooterController.setSongfromPlaylist(index, songs);
 
                 }
@@ -134,15 +122,15 @@ public class SelectionController {
         tableMusic.setItems(data);
 
     }
-    private int handleDoubleClick(example selectedExample) {
+    private int handleDoubleClick(Cells selectedCells) {
         // Obtain the file path from the selected example
 
         // Do something with the file path on double-click, for example, print it
-        System.out.println("Double-clicked on row with file path: " + selectedExample.getNumber());
+        System.out.println("Double-clicked on row with file path: " + selectedCells.getNumber());
         // Add your logic to handle the file path as needed on double-click
 
         // Return the index
-        return selectedExample.getNumber()-1;
+        return selectedCells.getNumber()-1;
     }
     public void updatePlaylistName(String newName) {
 
@@ -184,8 +172,8 @@ public class SelectionController {
         setCells();
 
     }
-    private <T> void setupHandCursorForColumn(TableColumn<example, T> column) {
-        column.setCellFactory(col -> new TableCell<example, T>() {
+    private <T> void setupHandCursorForColumn(TableColumn<Cells, T> column) {
+        column.setCellFactory(col -> new TableCell<Cells, T>() {
             @Override
             protected void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);
@@ -229,6 +217,7 @@ public class SelectionController {
 
             // Create a Media object for each file
             Media songMedia = new Media(song.toURI().toString());
+            String album = Functions.extractMetadata(song.getPath()).get("Album");
 
             // Create a MediaPlayer for the Media object
             MediaPlayer songPlayer = new MediaPlayer(songMedia);
@@ -245,8 +234,8 @@ public class SelectionController {
                 String formattedDuration = String.format("%02d:%02d", minutes, seconds);
                 Image img = Functions.extractAndDisplayAlbumCover(song.getPath());
                 // Create example object and add it to the data list
-                example songExample = new example(index, Functions.nameWithoutExtension(song.getName()), "Unknown", formattedDuration,img);
-                data.add(songExample);
+                Cells songCells = new Cells(index, Functions.nameWithoutExtension(song.getName()), album, formattedDuration,img);
+                data.add(songCells);
 
                 // Dispose of the MediaPlayer after obtaining the duration
                 songPlayer.dispose();

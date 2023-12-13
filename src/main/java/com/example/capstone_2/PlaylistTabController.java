@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
+// TODO RELOAD PLAYLIST AFTER ADDING LIBRARY
 public class PlaylistTabController implements Initializable {
     @FXML
     private mainController main;
@@ -263,12 +263,6 @@ public class PlaylistTabController implements Initializable {
                             img.setPreserveRatio(true);
                             img.setImage(image);
                             setGraphic(img);
-                        } else {
-                            img.setFitWidth(50);
-                            img.setFitHeight(50);
-                            img.setPreserveRatio(true);
-                            img.setImage(defaultArtistImage);
-                            setGraphic(img);
                         }
                     } else {
                         img.setFitWidth(50);
@@ -304,12 +298,6 @@ public class PlaylistTabController implements Initializable {
                             img.setFitHeight(40);
                             img.setPreserveRatio(true);
                             img.setImage(image);
-                            setGraphic(img);
-                        } else {
-                            img.setFitWidth(40);
-                            img.setFitHeight(40);
-                            img.setPreserveRatio(true);
-                            img.setImage(defaultAlbumImage);
                             setGraphic(img);
                         }
                     } else {

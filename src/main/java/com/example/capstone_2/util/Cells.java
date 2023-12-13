@@ -1,12 +1,11 @@
 package com.example.capstone_2.util;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class example {
+public class Cells {
     private SimpleIntegerProperty number;
     private SimpleStringProperty title;
     private SimpleStringProperty album;
@@ -16,7 +15,7 @@ public class example {
 
 
 
-    public example(int number, String title, String album, String timeDuration , Image image){
+    public Cells(int number, String title, String album, String timeDuration , Image image){
         this.number = new SimpleIntegerProperty(number);
         this.title =  new SimpleStringProperty(title);
         this.album =  new SimpleStringProperty(album);
