@@ -4,6 +4,7 @@ import com.example.capstone_2.util.Albums;
 import com.example.capstone_2.util.Artist;
 import com.example.capstone_2.util.Playlist;
 import com.example.capstone_2.util.Functions;
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -293,6 +294,7 @@ public class PlaylistTabController implements Initializable {
             if (event.getClickCount() == 1) { // You can adjust the click count as needed
                 currentSongs = playlistContentList.getSelectionModel().getSelectedItem();
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.PLAYLIST);
+                Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));
             }
         });
 
@@ -300,7 +302,7 @@ public class PlaylistTabController implements Initializable {
             if (event.getClickCount() == 1) {
                 currentSongs = artistContentList.getSelectionModel().getSelectedItem();
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.ARTIST);
-
+                Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));
             }
         });
 
@@ -309,6 +311,7 @@ public class PlaylistTabController implements Initializable {
                 currentSongs = albumContentList.getSelectionModel().getSelectedItem();
                 System.out.println(currentSongs);
                 main.SelectionController.setFiles(currentSongs, SelectionController.MediaType.ALBUM);
+                Platform.runLater(() ->  main.SelectionController.updatePlaylistName(currentSongs));
             }
         });
 
