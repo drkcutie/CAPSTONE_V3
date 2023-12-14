@@ -4,33 +4,22 @@ import com.example.capstone_2.util.Albums;
 import com.example.capstone_2.util.Artist;
 import com.example.capstone_2.util.Playlist;
 import com.example.capstone_2.util.Functions;
-import javafx.application.Platform;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Callback;
 
 
-import java.awt.Button;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 // TODO RELOAD PLAYLIST AFTER ADDING LIBRARY
 public class PlaylistTabController implements Initializable {
     @FXML
-    private mainController main;
+    private MainController main;
     @FXML
     private LibraryController LibraryController;
 
@@ -91,7 +80,7 @@ public class PlaylistTabController implements Initializable {
 
 
 
-    public void init(mainController mainController) {
+    public void init(MainController mainController) {
         main = mainController;
     }
 

@@ -3,7 +3,7 @@ package com.example.capstone_2;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 
-public class mainController {
+public class MainController {
     public BorderPane Main;
     @FXML
 private PlaylistTabController PlaylistController;

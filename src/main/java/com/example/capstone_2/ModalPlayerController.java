@@ -1,17 +1,15 @@
 package com.example.capstone_2;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.almasb.fxgl.audio.Music;
 import com.example.capstone_2.util.Functions;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,10 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class ModalPlayerController {
-    private mainController main;
+    private MainController main;
 
     @FXML
     private ResourceBundle resources;
@@ -58,14 +57,14 @@ public class ModalPlayerController {
     private Button prevButton;
 
     @FXML
-    private Slider progressSlider;
+    public Slider progressSlider;
 
     @FXML
     private ImageView repeatButton;
 
     @FXML
     private ImageView shuffleButton;
-    FooterController footerControllerController;
+    FooterController footerController;
     private Parent root;
 
     private Map<String, Image> images = new HashMap<String, Image>();
@@ -74,8 +73,11 @@ public class ModalPlayerController {
 
     boolean running = false , shuffle = false;
 
-
-
+    public void init(MainController mainController)
+    {
+        main = mainController;
+        footerController = main.FooterController;
+    }
     @FXML
     void initialize() {
         assert Artist != null : "fx:id=\"Artist\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
@@ -90,7 +92,28 @@ public class ModalPlayerController {
         assert repeatButton != null : "fx:id=\"repeatButton\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
         assert shuffleButton != null : "fx:id=\"shuffleButton\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Footer.fxml"));
+        progressSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                if (progressSlider.isValueChanging() && footerController.mediaPlayer != null) {
+                    double end = footerController.mediaPlayer.getTotalDuration().toSeconds();
+                    double newPosition = progressSlider.getValue() * 0.01 * end;
+                    footerController.mediaPlayer.seek(Duration.seconds(newPosition));
+                    footerController.progressSlider.setValue(newPosition);
+                }
+            }
+        });
+
+        progressSlider.setOnMouseClicked(event -> {
+
+            if (footerController.mediaPlayer != null) {
+
+                double end = footerController.mediaPlayer.getTotalDuration().toSeconds();
+                double newPosition = progressSlider.getValue() * 0.01 * end;
+                footerController.mediaPlayer.seek(Duration.seconds(newPosition));
+                footerController.progressSlider.setValue(newPosition);
+            }
+        });
 
 
 
@@ -115,11 +138,35 @@ public class ModalPlayerController {
     @FXML
     void toggleRepeat(MouseEvent event) {
         main.FooterController.toggleRepeat(event);
+        if(repeatState == 0)
+        {
+            repeatState = 1;
+            repeatButton.setImage(images.get("repeat-toggled1"));
+        }
+        else if (repeatState == 1)
+        {
+            repeatState = 2;
+            repeatButton.setImage(images.get("repeat-toggled2"));
+        }
+        else
+        {
+            repeatState = 0;
+            repeatButton.setImage(images.get("repeat-untoggled"));
+        }
 
     }
     @FXML
     void toggleShuffle(MouseEvent event) {
         main.FooterController.toggleShuffle(event);
+        shuffle = !shuffle;
+        if(shuffle)
+        {
+            shuffleButton.setImage(images.get("shuffle-toggled"));
+        }
+        else
+        {
+            shuffleButton.setImage(images.get("shuffle-untoggled"));
+        }
     }
 
     @FXML

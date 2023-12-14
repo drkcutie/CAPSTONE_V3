@@ -48,25 +48,25 @@ public class FooterController implements Initializable {
     @FXML
     private ImageView songImage;
     @FXML
-    private Slider progressSlider;
+    public Slider progressSlider;
     @FXML
-    private Slider volumeSlider;
+    public Slider volumeSlider;
     @FXML
     private Label artistLabel;
     @FXML
-    private ImageView shuffleButton;
+    public ImageView shuffleButton;
     @FXML
-    private ImageView repeatButton;
+    public ImageView repeatButton;
     @FXML
     private  ImageView volumeImage;
 
-    private mainController main;
+    private MainController main;
 
     private Media media;
     FileInputStream fileInputStream;
     private Timer timer;
     private TimerTask task;
-    private MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
     private File songs_directory, icon_directory;
     private File[] files;
     private ArrayList<File> songs;
@@ -81,7 +81,7 @@ public class FooterController implements Initializable {
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
     private int songNumber, prevSong = 0;
 
-    public void init(mainController mainController)
+    public void init(MainController mainController)
     {
         main = mainController;
     }
@@ -388,6 +388,8 @@ public class FooterController implements Initializable {
         Scene newScene = new Scene(root);
         newstage.initStyle(StageStyle.UNDECORATED);
 
+        ModalPlayerController modalPlayerController = loader.getController();
+        modalPlayerController.init(main);
 
         newstage.setScene(newScene);
 
