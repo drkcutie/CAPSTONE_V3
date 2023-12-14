@@ -135,7 +135,7 @@ public class SelectionController {
         timeDuration.setCellValueFactory(new PropertyValueFactory<>("timeDuration"));
         setupHandCursorForColumn(timeDuration);
         SongImg.setCellValueFactory(new PropertyValueFactory<>("Image"));
-        setupHandCursorForColumn(SongImg);
+        setupHandCursorForColumn(title);
         tableMusic.setItems(data);
 
     }

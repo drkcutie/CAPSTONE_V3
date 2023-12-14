@@ -3,11 +3,11 @@ package com.example.capstone_2;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.example.capstone_2.util.Functions;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+//TODO FIX LAGGY AND DUPLICATING AUDIO MIGHT BE CREATING NEW INSTANCES BUT DONT KNOW WHERE
 
 public class ModalPlayerController {
     private MainController main;
@@ -44,7 +45,7 @@ public class ModalPlayerController {
     private Button CloseButton;
 
     @FXML
-    private ImageView MusicPic;
+    private ImageView songImage;
 
     @FXML
     private Button PlayButton;
@@ -67,8 +68,11 @@ public class ModalPlayerController {
     @FXML
     private ImageView shuffleButton;
     FooterController footerController;
-    private Parent root;
 
+    private Timer timer;
+    private  TimerTask task;
+    private Parent root;
+        private  Timeline timeline;
     private Map<String, Image> images = new HashMap<String, Image>();
     private File songs_directory, icon_directory;
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
@@ -84,7 +88,15 @@ public class ModalPlayerController {
 
     public void setData()
     {
+
         shuffle = footerController.shuffle;
+
+        Platform.runLater(() -> {
+            progressSlider.setValue(footerController.progressSlider.getValue());
+            Artist.setText(footerController.artistLabel.getText());
+            Title.setText(footerController.songLabel.getText());
+            songImage.setImage(footerController.songImage.getImage());
+        });
         if(footerController.shuffle)
         {
             shuffleButton.setImage(images.get("shuffle-toggled"));
@@ -106,13 +118,14 @@ public class ModalPlayerController {
         {
             repeatButton.setImage(images.get("repeat-toggled2"));
         }
+        playProgress(new ActionEvent());
 
     }
     @FXML
     void initialize() {
         assert Artist != null : "fx:id=\"Artist\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
         assert CloseButton != null : "fx:id=\"CloseButton\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
-        assert MusicPic != null : "fx:id=\"MusicPic\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
+        assert songImage != null : "fx:id=\"MusicPic\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
         assert PlayButton != null : "fx:id=\"PlayButton\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
         assert Title != null : "fx:id=\"Title\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
         assert modal != null : "fx:id=\"modal\" was not injected: check your FXML file 'ModalPlayer.fxml'.";
@@ -129,23 +142,22 @@ public class ModalPlayerController {
                     double end = footerController.mediaPlayer.getTotalDuration().toSeconds();
                     double newPosition = progressSlider.getValue() * 0.01 * end;
                     footerController.mediaPlayer.seek(Duration.seconds(newPosition));
-                    footerController.progressSlider.setValue(newPosition);
+                    footerController.progressSlider.setValue(newPosition/ end * 100);
                 }
             }
         });
 
         progressSlider.setOnMouseClicked(event -> {
-
             if (footerController.mediaPlayer != null) {
-
                 double end = footerController.mediaPlayer.getTotalDuration().toSeconds();
                 double newPosition = progressSlider.getValue() * 0.01 * end;
                 footerController.mediaPlayer.seek(Duration.seconds(newPosition));
-                footerController.progressSlider.setValue(newPosition);
+
+                footerController.progressSlider.setValue(newPosition / end * 100);
+
             }
+
         });
-
-
 
         try {
             icon_directory = new File("src/img/Icons");
@@ -162,8 +174,51 @@ public class ModalPlayerController {
 
         repeatButton.setImage(images.get("repeat-untoggled"));
         shuffleButton.setImage(images.get("shuffle-untoggled"));
-        MusicPic.setImage(images.get("wuht"));
+        songImage.setImage(images.get("wuht"));
     }
+    void playProgress(ActionEvent actionEvent) {
+        if (footerController.mediaPlayer != null) {
+            synchronized (footerController.mediaPlayer) {
+                if (timer != null) {
+                    timer.cancel(); // Cancel the previous task
+                }
+
+                timer = new Timer();
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(() -> {
+                            // Duration and Label
+                            Duration duration = footerController.mediaPlayer.getMedia().getDuration();
+
+                            double current = footerController.mediaPlayer.getCurrentTime().toSeconds();
+                            double end = footerController.mediaPlayer.getTotalDuration().toSeconds();
+                            double progress = current / end * 100;
+                            double targetProgress = progressSlider.getValue() + 0.1;
+
+                            // UPDATES THE UI IF THERE'S A LATENCY ON LOADING THE DATA
+                            if (footerController.songImage != songImage) {
+                                setData();
+                            }
+
+                            if (targetProgress <= progress) {
+                                progressSlider.setValue(targetProgress);
+                            }
+                            if (current / end == 1.0) {
+                                if (repeatState == 2) {
+                                    footerController.setCurrentSong();
+                                } else {
+                                    forwardMusic();
+                                }
+                            }
+                        });
+                    }
+                };
+                timer.scheduleAtFixedRate(task, 1000, 1000);
+            }
+        }
+    }
+
 
     @FXML
     void toggleRepeat(MouseEvent event) {
@@ -185,6 +240,7 @@ public class ModalPlayerController {
         }
 
     }
+
     @FXML
     void toggleShuffle(MouseEvent event) {
         main.FooterController.toggleShuffle(event);
@@ -199,9 +255,43 @@ public class ModalPlayerController {
         }
     }
 
+
+
+
+
+    void forwardMusic()
+    {
+
+            try {
+                footerController.forwardMusic(new ActionEvent());
+            } catch (IOException e) {
+                System.err.println("Cannot Forward Music");
+            }
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                setData();
+            }
+        });
+        System.out.println("Setting data");
+    }
     @FXML
     void forwardMusic(MouseEvent event) throws IOException {
-            footerController.forwardMusic(new ActionEvent());
+
+            try {
+                footerController.forwardMusic(new ActionEvent());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                setData();
+            }
+        });
+
+
+        System.out.println("Setting data");
+
+
     }
 
     @FXML
@@ -212,6 +302,7 @@ public class ModalPlayerController {
     @FXML
     void prevMusic(MouseEvent event) throws IOException {
         footerController.prevMusic(new ActionEvent());
+        setData();
     }
     @FXML
     void closeScene(MouseEvent event) {
@@ -224,4 +315,5 @@ public class ModalPlayerController {
         currentStage.close();
 
     }
+
 }

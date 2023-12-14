@@ -19,7 +19,7 @@
                <top>
                   <HBox alignment="CENTER" prefHeight="218.0" prefWidth="377.0" BorderPane.alignment="CENTER_RIGHT">
                      <children>
-                        <ImageView fx:id="MusicPic" fitHeight="174.0" fitWidth="277.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="songImage" fitHeight="174.0" fitWidth="277.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../../../../../../OneDrive/Pictures/IMG20220220102539.jpg" />
                            </image>

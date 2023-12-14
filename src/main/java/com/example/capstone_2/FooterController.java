@@ -44,15 +44,15 @@ public class FooterController implements Initializable {
     @FXML
     private Button prevButton;
     @FXML
-    private Label songLabel;
+    Label songLabel;
     @FXML
-    private ImageView songImage;
+    ImageView songImage;
     @FXML
     public Slider progressSlider;
     @FXML
     public Slider volumeSlider;
     @FXML
-    private Label artistLabel;
+    Label artistLabel;
     @FXML
     public ImageView shuffleButton;
     @FXML
@@ -79,7 +79,7 @@ public class FooterController implements Initializable {
 
     boolean running = false , shuffle = false;
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
-    private int songNumber, prevSong = 0;
+    private int songNumber = 0, prevSong = 0;
 
     public void init(MainController mainController)
     {
@@ -174,6 +174,7 @@ public class FooterController implements Initializable {
         // receives an array of songs from the playlist and plays the music.
         this.songNumber = songNumber;
         this.songs = songs;
+
         setCurrentSong();
 
     }
@@ -297,6 +298,14 @@ public class FooterController implements Initializable {
         if(mediaPlayer == null)
             return;
 
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+        }
+
+        if (task != null) {
+            task.cancel();
+        }
         prevSong = songNumber;
 
         if (songNumber < songs.size() -1 && !shuffle)
@@ -336,7 +345,7 @@ public class FooterController implements Initializable {
 
         playProgress(event);
     }
-    void setCurrentSong()
+    public  void setCurrentSong()
     {
 
         if(media == null || mediaPlayer == null)
@@ -360,9 +369,8 @@ public class FooterController implements Initializable {
     void prevMusic(ActionEvent event) throws IOException {
         if(mediaPlayer == null)
             return;
-        if(songNumber != prevSong)
-            songNumber = prevSong;
-        else if(songNumber != 0)
+
+        if(songNumber != 0)
             songNumber--;
 
         setCurrentSong();
