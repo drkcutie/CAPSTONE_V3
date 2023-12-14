@@ -11,11 +11,14 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class LibraryController {
 
     @FXML
     private ImageView addPlaylist;
+    private PlaylistTabController playlistController;
 
     @FXML
     void addPlaylist(MouseEvent event) {
@@ -56,17 +59,19 @@ public class LibraryController {
 
                 if (selectedFiles != null) {
                     for (File file : selectedFiles) {
-                        // Copy the selected audio files to the new playlist folder, no delete
+
                         try {
                             Files.copy(file.toPath(), new File(newPlaylistFolder, file.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
                         } catch (Exception e) {
                             e.printStackTrace();
                             System.err.println("Failed to copy file: " + file.getName());
                         }
+                        playlistController.refresh();
                     }
+
                 }
             } else {
-                // Handle error if the folder creation fails
+
                 System.err.println("Failed to create the new playlist folder.");
             }
         }
@@ -76,4 +81,11 @@ public class LibraryController {
     {
         addPlaylist.setImage(FooterController.images.get("AddPlaylist"));
     }
+
+   public void setPlaylistController(PlaylistTabController playlistController)
+   {
+       this.playlistController = playlistController;
+   }
+
+
 }

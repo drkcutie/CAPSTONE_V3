@@ -96,7 +96,15 @@ public class PlaylistTabController implements Initializable {
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        refresh();
+    }
+    public void refresh()
+    {
+        playlistContentList.getItems().removeAll(Playlist.getAllPlaylist());
+
+
         String absolutePathPlaylist = defaultFolderImagePath.getAbsolutePath();
         absolutePathPlaylist = absolutePathPlaylist.replace("\\", "/");
         String absolutePathArtist = defaultArtistImagePath.getAbsolutePath();
@@ -105,7 +113,7 @@ public class PlaylistTabController implements Initializable {
         absolutePathAlbum = absolutePathAlbum.replace("\\", "/");
 
 
-        LibraryController.initialize();
+        LibraryController.setPlaylistController(this);
 
 
         try {
@@ -146,6 +154,7 @@ public class PlaylistTabController implements Initializable {
         artists = new HashSet<>();
         albums = new HashSet<>();
         playlists = new HashSet<>();
+
 
         if(files != null){
             for (File folder : files) {
