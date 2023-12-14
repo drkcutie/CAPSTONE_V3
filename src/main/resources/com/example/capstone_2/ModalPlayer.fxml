@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="modal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone_2.ModalPlayerController">
+<BorderPane fx:id="modal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone_2.ModalPlayerController">
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,9 +28,9 @@
                   </HBox>
                </top>
                <center>
-                  <Label fx:id="Title" prefHeight="54.0" prefWidth="290.0" text="MOMENTS BEFORE DISASTER" BorderPane.alignment="CENTER">
+                  <Label fx:id="Title" alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="290.0" text="MOMENTS BEFORE DISASTER" BorderPane.alignment="CENTER">
                      <font>
-                        <Font name="Arial Black" size="24.0" />
+                        <Font name="Arial Black" size="15.0" />
                      </font>
                   </Label>
                </center>
@@ -58,17 +58,17 @@
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
                   <ImageView fx:id="shuffleButton" fitHeight="35.0" fitWidth="42.0" onMouseClicked="#toggleShuffle" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="prevButton" mnemonicParsing="false" text="PREV">
+                  <Button fx:id="prevButton" mnemonicParsing="false" onMouseClicked="#prevMusic" text="PREV">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="PlayButton" mnemonicParsing="false" prefWidth="60.0" text="PLAY">
+                  <Button fx:id="PlayButton" mnemonicParsing="false" onMouseClicked="#playMusic" prefWidth="60.0" text="PLAY">
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="nxtButton" mnemonicParsing="false" text="NEXT">
+                  <Button fx:id="nxtButton" mnemonicParsing="false" onMouseClicked="#forwardMusic" text="NEXT">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
@@ -82,7 +82,10 @@
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="231.0" prefWidth="66.0" BorderPane.alignment="BOTTOM_CENTER">
          <children>
-            <Button fx:id="CloseButton" minHeight="50.0" mnemonicParsing="false" onMouseClicked="#closeScene" prefHeight="50.0" prefWidth="50.0" text="X" />
+            <Button fx:id="CloseButton" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#closeScene" prefHeight="30.0" prefWidth="40.0" text="X">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
          </children>
       </VBox>
    </right>

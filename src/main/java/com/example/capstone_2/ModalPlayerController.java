@@ -1,6 +1,7 @@
 package com.example.capstone_2;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.ResourceBundle;
 import com.example.capstone_2.util.Functions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -77,6 +79,34 @@ public class ModalPlayerController {
     {
         main = mainController;
         footerController = main.FooterController;
+        setData();
+    }
+
+    public void setData()
+    {
+        shuffle = footerController.shuffle;
+        if(footerController.shuffle)
+        {
+            shuffleButton.setImage(images.get("shuffle-toggled"));
+        }
+        else
+        {
+            shuffleButton.setImage(images.get("shuffle-untoggled"));
+        }
+    repeatState = footerController.repeatState;
+        if(footerController.repeatState == 0)
+        {
+            repeatButton.setImage(images.get("repeat-untoggled"));
+        }
+        else if (footerController.repeatState == 1)
+        {
+            repeatButton.setImage(images.get("repeat-toggled1"));
+        }
+        else
+        {
+            repeatButton.setImage(images.get("repeat-toggled2"));
+        }
+
     }
     @FXML
     void initialize() {
@@ -169,6 +199,20 @@ public class ModalPlayerController {
         }
     }
 
+    @FXML
+    void forwardMusic(MouseEvent event) throws IOException {
+            footerController.forwardMusic(new ActionEvent());
+    }
+
+    @FXML
+    void playMusic(MouseEvent event) {
+        footerController.playMusic(new ActionEvent());
+    }
+
+    @FXML
+    void prevMusic(MouseEvent event) throws IOException {
+        footerController.prevMusic(new ActionEvent());
+    }
     @FXML
     void closeScene(MouseEvent event) {
         Scene currentScene = CloseButton.getScene();
