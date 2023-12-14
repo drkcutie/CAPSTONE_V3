@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="modal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone_2.ModalPlayerController">
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -83,7 +82,7 @@
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="231.0" prefWidth="66.0" BorderPane.alignment="BOTTOM_CENTER">
          <children>
-            <Button fx:id="CloseButton" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="X" />
+            <Button fx:id="CloseButton" minHeight="50.0" mnemonicParsing="false" onMouseClicked="#closeScene" prefHeight="50.0" prefWidth="50.0" text="X" />
          </children>
       </VBox>
    </right>

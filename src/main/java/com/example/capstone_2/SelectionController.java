@@ -1,6 +1,6 @@
 package com.example.capstone_2;
 
-import com.sun.javafx.scene.control.skin.Utils;
+//import com.sun.javafx.scene.control.skin.Utils;
 import com.example.capstone_2.util.*;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -8,15 +8,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,8 +32,6 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -44,12 +44,17 @@ public class SelectionController {
     private static ArrayList<File> songs = new ArrayList<>();
     private MediaPlayer mediaPlayer;
     private Media media;
+    private double initialFontSize = 70; // Replace with your desired initial font size
+    private double minimumFontSize = 45;
 
     @FXML
     private ResourceBundle resources;
 
     @FXML
-    private Label playlistName;
+    private TextFlow playlistName;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     private URL location;
@@ -104,7 +109,7 @@ public class SelectionController {
         assert tableMusic != null : "fx:id=\"tableMusic\" was not injected: check your FXML file 'Selection.fxml'.";
         assert timeDuration != null : "fx:id=\"timeDuration\" was not injected: check your FXML file 'Selection.fxml'.";
         assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'Selection.fxml'.";
-        assert playlistName != null : "fx:id=\"PlaylistName\" was not injected: check your FXML file 'Selection.fxml'.";
+        assert playlistName != null : "fx:id=\"playlistName\" was not injected: check your FXML file 'Selection.fxml'.";
 
         setCells();
 
@@ -151,26 +156,43 @@ public class SelectionController {
         return selectedCells.getNumber()-1;
     }
 
-    public void adjustPlaylistName()
-    {
 
-    }
-    public void updatePlaylistBar(String name, String path) throws FileNotFoundException {
-       if(name.length() > 22)
-       {
-           playlistName.setStyle("-fx-font-size: 36");
-       }
-       else {
+    public void updatePlaylistBar(String name, String path) {
+        Text text = new Text(name);
+        Font initialFont = new Font("Arial Black", initialFontSize);
+        text.setFont(initialFont);
 
-        playlistName.setStyle("-fx-font-size: 50");
-       }
-        playlistName.setText(name);
+        double textWidth = text.getBoundsInLocal().getWidth();
+        System.out.println("Original Font Size: " + initialFont.getSize());
+        System.out.println("Text Width: " + textWidth);
+
+        if (textWidth > playlistName.getPrefWidth()) {
+            double scaleFactor = playlistName.getPrefWidth() / textWidth;
+            double newFontSize = initialFont.getSize() * scaleFactor;
+
+            System.out.println("New Font Size: " + newFontSize);
+
+            if (newFontSize <= initialFontSize && newFontSize >= minimumFontSize) {
+                text.setFont(new Font(initialFont.getFamily(), newFontSize));
+                System.out.println("Setting new font size...");
+            }
+        }
+
+        playlistName.getChildren().setAll(text);
+
         Image img = Functions.extractAndDisplayAlbumCover(path);
         playlistImage.setImage(img);
 
+        // Check if the text is too long and enable scrolling
+        if (textWidth > playlistName.getPrefWidth()) {
+            scrollPane.setContent(playlistName);
+        } else {
+            scrollPane.setContent(null); // Disable scrolling if not needed
+        }
 
         backgroundImage.setStyle("-fx-background-color: " + StylesHandler.getLinearGradient());
     }
+
     public void setFiles(String key, MediaType type) {
         if(Objects.equals(this.key, key))
             return;
@@ -198,11 +220,7 @@ public class SelectionController {
             songs.add(file);
         }
 
-        try {
-            updatePlaylistBar(key, songs.get(0).getPath());
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        updatePlaylistBar(key, songs.get(0).getPath());
 
         setPlaylist();
         setCells();

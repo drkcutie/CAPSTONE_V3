@@ -21,7 +21,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,7 +72,7 @@ public class FooterController implements Initializable {
     private ArrayList<File> songs;
 
 
-   public static Map<String, Image> images = new HashMap<String, Image>();
+    public static Map<String, Image> images = new HashMap<String, Image>();
 
     public String songName;
 
@@ -113,7 +115,7 @@ public class FooterController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 if(mediaPlayer != null)
-                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+                    mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
                 updateVolumeButton();
             }
         });
@@ -172,7 +174,7 @@ public class FooterController implements Initializable {
         // receives an array of songs from the playlist and plays the music.
         this.songNumber = songNumber;
         this.songs = songs;
-       setCurrentSong();
+        setCurrentSong();
 
     }
 
@@ -319,7 +321,7 @@ public class FooterController implements Initializable {
 
 
 
-       setCurrentSong();
+        setCurrentSong();
     }
 
     @FXML
@@ -332,7 +334,7 @@ public class FooterController implements Initializable {
         else
             mediaPlayer.pause();
 
-       playProgress(event);
+        playProgress(event);
     }
     void setCurrentSong()
     {
@@ -359,7 +361,7 @@ public class FooterController implements Initializable {
         if(mediaPlayer == null)
             return;
         if(songNumber != prevSong)
-        songNumber = prevSong;
+            songNumber = prevSong;
         else if(songNumber != 0)
             songNumber--;
 
@@ -384,6 +386,8 @@ public class FooterController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ModalPlayer.fxml"));
         Parent root = loader.load();
         Scene newScene = new Scene(root);
+        newstage.initStyle(StageStyle.UNDECORATED);
+
 
         newstage.setScene(newScene);
 

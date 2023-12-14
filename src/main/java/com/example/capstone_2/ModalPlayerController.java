@@ -1,5 +1,6 @@
 package com.example.capstone_2;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +13,7 @@ import com.example.capstone_2.util.Functions;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -19,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 
 public class ModalPlayerController {
@@ -124,5 +127,17 @@ public class ModalPlayerController {
     @FXML
     void toggleShuffle(MouseEvent event) {
         main.FooterController.toggleShuffle(event);
+    }
+
+    @FXML
+    void closeScene(MouseEvent event) {
+        Scene currentScene = CloseButton.getScene();
+
+        // Get the stage associated with the current scene
+        Stage currentStage = (Stage) currentScene.getWindow();
+
+        // Close the stage
+        currentStage.close();
+
     }
 }
