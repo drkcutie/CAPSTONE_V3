@@ -54,7 +54,7 @@ public class SelectionController {
     private TextFlow playlistName;
 
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane scrollPane = new ScrollPane();
 
     @FXML
     private URL location;

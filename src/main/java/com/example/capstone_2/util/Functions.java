@@ -19,8 +19,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Functions {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+
+public class Functions {
+    static {
+
+        //Disable loggers
+        Logger [] pin = new Logger[]{ Logger.getLogger("org.jaudiotagger") };
+
+        for (Logger l : pin)
+            l.setLevel(Level.OFF);
+    }
     public static boolean isImageFile(File file) {
         // Check if the file is an image file based on its extension.
         String fileName = file.getName().toLowerCase();
@@ -38,13 +49,14 @@ public class Functions {
 
             // Get the tag (metadata) from the audio file
             Tag tag = audioFile.getTag();
-            Artwork artwork = tag.getFirstArtwork();
-            // Extract specific metadata fields
-            metadata.put("Title", tag.getFirst(FieldKey.TITLE));
-            metadata.put("Artist", tag.getFirst(FieldKey.ARTIST));
-            metadata.put("Album", tag.getFirst(FieldKey.ALBUM));
-//            metadata.put("Genre", tag.getFirst(FieldKey.GENRE));
-//            metadata.put("Year", tag.getFirst(FieldKey.YEAR));
+
+            if (tag != null) {
+                Artwork artwork = tag.getFirstArtwork();
+                // Extract specific metadata fields
+                metadata.put("Title", tag.getFirst(FieldKey.TITLE));
+                metadata.put("Artist", tag.getFirst(FieldKey.ARTIST));
+                metadata.put("Album", tag.getFirst(FieldKey.ALBUM));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,6 +77,7 @@ public class Functions {
 
     public static Image extractAndDisplayAlbumCover(String filePath) {
         Image image = null;
+        Artwork artwork = null;
         try {
             // Read the audio file
             AudioFile audioFile = AudioFileIO.read(new File(filePath));
@@ -73,7 +86,8 @@ public class Functions {
             Tag tag = audioFile.getTag();
 
             // Extract album cover (if available)
-            Artwork artwork = tag.getFirstArtwork();
+            if(tag != null)
+             artwork = tag.getFirstArtwork();
             if (artwork != null) {
                 // Get the image data as a byte array
                 byte[] imageData = artwork.getBinaryData();
@@ -82,11 +96,11 @@ public class Functions {
                 // Perform actions with the image data (e.g., display or save)
                 // ...
 
-                System.out.println("Album Cover found and processed.");
+
             } else {
                 File file = new File("src/img/default/no-image-icon.jpg");
                 image = new Image(file.toURI().toString());
-                System.out.println("No Album Cover found.");
+
             }
 
         } catch (CannotReadException | InvalidAudioFrameException e) {
@@ -130,6 +144,6 @@ public class Functions {
     }
 
 
-    
+
 
 }

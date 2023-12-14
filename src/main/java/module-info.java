@@ -13,6 +13,7 @@ module com.example.capstone_2 {
     requires org.apache.commons.io;
     requires java.desktop;
     requires jaudiotagger;
+    requires java.logging;
 
     opens com.example.capstone_2 to javafx.fxml;
     exports com.example.capstone_2;

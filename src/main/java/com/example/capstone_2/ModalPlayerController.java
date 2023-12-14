@@ -92,13 +92,6 @@ public class ModalPlayerController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Footer.fxml"));
 
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        footerControllerController = loader.getController();
 
 
         try {

@@ -91,7 +91,9 @@ public class PlaylistTabController implements Initializable {
 
 
 
-
+    public void init(mainController mainController) {
+        main = mainController;
+    }
 
 
 
@@ -103,7 +105,8 @@ public class PlaylistTabController implements Initializable {
     public void refresh()
     {
         playlistContentList.getItems().removeAll(Playlist.getAllPlaylist());
-
+        artistContentList.getItems().removeAll(Artist.getAllArtists());
+        albumContentList.getItems().removeAll(Albums.getAllAlbums());
 
         String absolutePathPlaylist = defaultFolderImagePath.getAbsolutePath();
         absolutePathPlaylist = absolutePathPlaylist.replace("\\", "/");
@@ -119,7 +122,7 @@ public class PlaylistTabController implements Initializable {
         try {
 
             defaultPlaylistImage = new Image(new File(absolutePathPlaylist).toURI().toString());
-            System.out.println("LEGIT PICTURE MAN");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,14 +130,14 @@ public class PlaylistTabController implements Initializable {
         try {
 
             defaultArtistImage = new Image(new File(absolutePathArtist).toURI().toString());
-            System.out.println("LEGIT PICTURE MAN");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             defaultAlbumImage = new Image(new File(absolutePathAlbum).toURI().toString());
-            System.out.println("LEGIT PICTURE MAN");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -204,8 +207,6 @@ public class PlaylistTabController implements Initializable {
                             }
                             Albums.albumMap.get(album).add(filepath);
 
-                        } else {
-                            System.out.println("Not an audio file");
                         }
 
 
@@ -350,7 +351,5 @@ public class PlaylistTabController implements Initializable {
 
     }
 
-    public void init(mainController mainController) {
-        main = mainController;
-    }
+
 }
