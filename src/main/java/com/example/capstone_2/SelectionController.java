@@ -3,6 +3,7 @@ package com.example.capstone_2;
 //import com.sun.javafx.scene.control.skin.Utils;
 import com.example.capstone_2.util.*;
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -127,15 +128,14 @@ public class SelectionController {
     public void setCells()
     {
         Number.setCellValueFactory(new PropertyValueFactory<>("number"));  // Use "number" instead of "Number"
-        setupHandCursorForColumn(Number);
+        setupHandCursorForColumn(Number, true);
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
-        setupHandCursorForColumn(title);
+        setupHandCursorForColumn(title, false);
         album.setCellValueFactory(new PropertyValueFactory<>("album"));
-        setupHandCursorForColumn(album);
+        setupHandCursorForColumn(album, false);
         timeDuration.setCellValueFactory(new PropertyValueFactory<>("timeDuration"));
-        setupHandCursorForColumn(timeDuration);
+        setupHandCursorForColumn(timeDuration, true);
         SongImg.setCellValueFactory(new PropertyValueFactory<>("Image"));
-        setupHandCursorForColumn(title);
         tableMusic.setItems(data);
 
     }
@@ -220,7 +220,7 @@ public class SelectionController {
         setCells();
 
     }
-    private <T> void setupHandCursorForColumn(TableColumn<Cells, T> column) {
+    private <T> void setupHandCursorForColumn(TableColumn<Cells, T> column, boolean centerContent) {
         column.setCellFactory(col -> new TableCell<Cells, T>() {
             @Override
             protected void updateItem(T item, boolean empty) {
@@ -233,6 +233,9 @@ public class SelectionController {
                 } else {
                     setText(item.toString());
                     setCursor(Cursor.HAND); // Set the cursor to hand when the cell is not empty
+                    if (centerContent) {
+                        setAlignment(Pos.CENTER); // Center the content
+                    }
                 }
             }
 

@@ -21,8 +21,8 @@ public class Cells {
         this.album =  new SimpleStringProperty(album);
         this.timeDuration =  new SimpleStringProperty(timeDuration);
         Image = new ImageView(image);
-        Image.setFitWidth(30);
-        Image.setFitHeight(30);
+        Image.setFitWidth(45);
+        Image.setFitHeight(45);
 
 
     }

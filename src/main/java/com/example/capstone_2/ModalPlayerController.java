@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.*;
 
 import com.example.capstone_2.util.Functions;
+import com.example.capstone_2.util.StylesHandler;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -72,7 +73,7 @@ public class ModalPlayerController {
     private Timer timer;
     private  TimerTask task;
     private Parent root;
-        private  Timeline timeline;
+    private  Timeline timeline;
     private Map<String, Image> images = new HashMap<String, Image>();
     private File songs_directory, icon_directory;
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
@@ -83,7 +84,9 @@ public class ModalPlayerController {
     {
         main = mainController;
         footerController = main.FooterController;
+        modal.setStyle("-fx-background-color: " + StylesHandler.getLinearGradient());
         setData();
+
     }
 
     public void setData()
@@ -105,7 +108,7 @@ public class ModalPlayerController {
         {
             shuffleButton.setImage(images.get("shuffle-untoggled"));
         }
-    repeatState = footerController.repeatState;
+        repeatState = footerController.repeatState;
         if(footerController.repeatState == 0)
         {
             repeatButton.setImage(images.get("repeat-untoggled"));
@@ -262,11 +265,11 @@ public class ModalPlayerController {
     void forwardMusic()
     {
 
-            try {
-                footerController.forwardMusic(new ActionEvent());
-            } catch (IOException e) {
-                System.err.println("Cannot Forward Music");
-            }
+        try {
+            footerController.forwardMusic(new ActionEvent());
+        } catch (IOException e) {
+            System.err.println("Cannot Forward Music");
+        }
         Platform.runLater(new Runnable() {
             @Override public void run() {
                 setData();
@@ -277,11 +280,11 @@ public class ModalPlayerController {
     @FXML
     void forwardMusic(MouseEvent event) throws IOException {
 
-            try {
-                footerController.forwardMusic(new ActionEvent());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            footerController.forwardMusic(new ActionEvent());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Platform.runLater(new Runnable() {
             @Override public void run() {
                 setData();
