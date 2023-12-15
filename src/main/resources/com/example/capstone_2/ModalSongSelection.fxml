@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone_2.ModalSelectionController">
    <center>
       <ListView fx:id="DisplaySongs" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -16,11 +15,11 @@
    <top>
       <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <center>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="31.0" prefWidth="546.0" style="-fx-background-color: black;" BorderPane.alignment="BOTTOM_RIGHT">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="31.0" prefWidth="546.0" style="-fx-background-color: black;" BorderPane.alignment="BOTTOM_RIGHT">
                <children>
-                  <Label prefHeight="47.0" prefWidth="284.0" text="ADD SONGS" textAlignment="RIGHT" textFill="#fcf8f8">
+                  <Label prefHeight="54.0" prefWidth="359.0" text="ADD SONGS" textAlignment="CENTER">
                      <font>
-                        <Font name="Arial Black" size="32.0" />
+                        <Font name="Arial Black" size="36.0" />
                      </font>
                   </Label>
                </children>
