@@ -1,49 +1,41 @@
 package com.example.capstone_2;
 
-//import com.sun.javafx.scene.control.skin.Utils;
+
 import com.example.capstone_2.util.*;
-import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
+
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 
 import java.io.File;
+
 import java.util.ArrayList;
-
-import javafx.scene.media.MediaPlayer;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.net.URL;
 import java.util.Objects;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 
 
 public class SelectionController {
     private MainController main;
-    private File directory;
-    private File[] files;
-    private static ArrayList<File> songs = new ArrayList<>();
-    private MediaPlayer mediaPlayer;
-    private Media media;
-    private double initialFontSize = 70; // Replace with your desired initial font size
-    private double minimumFontSize = 45;
+    private static final ArrayList<File> songs = new ArrayList<>();
 
-    @FXML
-    private ResourceBundle resources;
+
 
     @FXML
     private TextFlow playlistName;
@@ -51,8 +43,7 @@ public class SelectionController {
     @FXML
     private ScrollPane scrollPane = new ScrollPane();
 
-    @FXML
-    private URL location;
+
     @FXML
     private Pane playPicture;
 
@@ -75,11 +66,10 @@ public class SelectionController {
     private TableColumn<Cells,Image> SongImg;
     @FXML
     private ImageView playlistImage;
+
     @FXML
     //Used to justify items.. acts like a div.
     private HBox backgroundImage;
-    private Parent root;
-    FooterController footerControllerController;
 
     public String key;
 
@@ -94,7 +84,6 @@ public class SelectionController {
     }
     static ObservableList<Cells> data = FXCollections.observableArrayList();
 
-    TranslateTransition translateTransition;
 
     @FXML
     void initialize() {
@@ -153,6 +142,7 @@ public class SelectionController {
 
     public void updatePlaylistBar(String name, String path) {
         Text text = new Text(name);
+        double initialFontSize = 70;
         Font initialFont = new Font("Arial Black", initialFontSize);
         text.setFont(initialFont);
 
@@ -166,6 +156,7 @@ public class SelectionController {
 
             System.out.println("New Font Size: " + newFontSize);
 
+            double minimumFontSize = 45;
             if (newFontSize <= initialFontSize && newFontSize >= minimumFontSize) {
                 text.setFont(new Font(initialFont.getFamily(), newFontSize));
                 System.out.println("Setting new font size...");
@@ -194,19 +185,11 @@ public class SelectionController {
         data.clear();
 
         this.key = key;
-        ArrayList<String> temp = new ArrayList<>();
-        switch(type)
-        {
-            case PLAYLIST:
-                temp = Playlist.getSongsfromPlaylist(key);
-                break;
-            case ARTIST:
-                temp = Artist.getSongsfromArtist(key);
-                break;
-            case ALBUM:
-                temp = Albums.getSongsfromAlbum(key);
-                break;
-        }
+        ArrayList<String> temp = switch (type) {
+            case PLAYLIST -> Playlist.getSongsfromPlaylist(key);
+            case ARTIST -> Artist.getSongsfromArtist(key);
+            case ALBUM -> Albums.getSongsfromAlbum(key);
+        };
         for(String path : temp)
         {
             File file = new File(path);

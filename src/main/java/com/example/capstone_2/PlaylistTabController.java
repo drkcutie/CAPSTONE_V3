@@ -2,70 +2,43 @@ package com.example.capstone_2;
 
 import com.example.capstone_2.util.Albums;
 import com.example.capstone_2.util.Artist;
-import com.example.capstone_2.util.Playlist;
 import com.example.capstone_2.util.Functions;
+import com.example.capstone_2.util.Playlist;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-
 import java.io.File;
 import java.net.URL;
 import java.util.*;
-// TODO RELOAD PLAYLIST AFTER ADDING LIBRARY
 public class PlaylistTabController implements Initializable {
     @FXML
     private MainController main;
+
+    // Necessary to handle refreshes by library controller.
     @FXML
     private LibraryController LibraryController;
 
-    @FXML
-    private BorderPane albumContent;
+
 
     @FXML
     private ListView<String> albumContentList;
 
-    @FXML
-    private Tab albumTab;
-
-    @FXML
-    private BorderPane artistContent;
 
     @FXML
     private ListView<String> artistContentList;
 
-    @FXML
-    private Tab artistTab;
 
-    @FXML
-    private BorderPane playListContent;
-
-    @FXML
-    private Tab playListTab;
 
     @FXML
     private ListView<String> playlistContentList;
-    @FXML
-    private ListView<String> previewSongs;
 
-    @FXML
-    private BorderPane sideTab;
 
-    @FXML
-    private TabPane tabContainers;
-    private Set<String> playlists;
-    private Set<String> artists;
-    private Set<String> albums;
-    private  File[] files;
 
     private File playlistDirectory;
     private String currentSongs;
-    private Parent root;
-    SelectionController selectionController;
 
     File defaultFolderImagePath = new File("src/img/default/folder.png");
     File defaultArtistImagePath = new File("src/img/default/artist.png");
@@ -111,25 +84,12 @@ public class PlaylistTabController implements Initializable {
         try {
 
             defaultPlaylistImage = new Image(new File(absolutePathPlaylist).toURI().toString());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-
             defaultArtistImage = new Image(new File(absolutePathArtist).toURI().toString());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             defaultAlbumImage = new Image(new File(absolutePathAlbum).toURI().toString());
-
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Encountered a problem with the default images.");
         }
+
 
 
 
@@ -140,12 +100,12 @@ public class PlaylistTabController implements Initializable {
             System.out.println("File not found!!!!!!!!!!!!!!!!!!!");
         }
 
-        files = playlistDirectory.listFiles();
+        File[] files = playlistDirectory.listFiles();
 
 
-        artists = new HashSet<>();
-        albums = new HashSet<>();
-        playlists = new HashSet<>();
+        Set<String> artists = new HashSet<>();
+        Set<String> albums = new HashSet<>();
+        Set<String> playlists = new HashSet<>();
 
 
         if(files != null){
@@ -153,6 +113,7 @@ public class PlaylistTabController implements Initializable {
                 if (folder.isDirectory()) {
                     String playlist = folder.getName();
                     File[]  playListFiles =  folder.listFiles();
+                    assert playListFiles != null;
                     for (File file : playListFiles) {
                         if (Functions.checkFile(file)) {
                             String filepath = file.getPath();
@@ -215,7 +176,7 @@ public class PlaylistTabController implements Initializable {
 
         playlistContentList.getItems().addAll(Playlist.getAllPlaylist());
         playlistContentList.setCellFactory(param -> new ListCell<String>() {
-            ImageView img = new ImageView();
+            final ImageView img = new ImageView();
 
             @Override
             protected void updateItem(String name, boolean empty) {
@@ -239,7 +200,7 @@ public class PlaylistTabController implements Initializable {
 
         artistContentList.getItems().addAll(Artist.getAllArtists());
         artistContentList.setCellFactory(param -> new ListCell<String>() {
-            ImageView img = new ImageView();
+            final ImageView img = new ImageView();
 
             @Override
             protected void updateItem(String name, boolean empty) {
@@ -276,9 +237,9 @@ public class PlaylistTabController implements Initializable {
 
         albumContentList.getItems().addAll(Albums.getAllAlbums());
         albumContentList.setCellFactory(param -> new ListCell<String>() {
-            ImageView img = new ImageView();
+            final ImageView img = new ImageView();
 
-            @Override
+
             protected void updateItem(String name, boolean empty) {
                 super.updateItem(name, empty);
 

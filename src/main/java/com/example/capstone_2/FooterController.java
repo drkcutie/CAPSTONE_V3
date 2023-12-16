@@ -10,7 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -24,9 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -37,12 +35,7 @@ public class FooterController implements Initializable {
     private Label currentDuration;
     @FXML
     private Label maxDurationLabel;
-    @FXML
-    private Button forwardButton;
-    @FXML
-    private Button playButton;
-    @FXML
-    private Button prevButton;
+
     @FXML
     Label songLabel;
     @FXML
@@ -63,12 +56,10 @@ public class FooterController implements Initializable {
     private MainController main;
 
     private Media media;
-    FileInputStream fileInputStream;
     private Timer timer;
     private TimerTask task;
     public MediaPlayer mediaPlayer;
-    private File songs_directory, icon_directory;
-    private File[] files;
+    private File  icon_directory;
     private ArrayList<File> songs;
 
 
@@ -79,7 +70,7 @@ public class FooterController implements Initializable {
 
     boolean running = false , shuffle = false;
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
-    private int songNumber = 0, prevSong = 0;
+    private int songNumber = 0;
 
     public void init(MainController mainController)
     {
@@ -99,6 +90,7 @@ public class FooterController implements Initializable {
         }
 
         File[] temp = icon_directory.listFiles();
+        assert temp != null;
         for(File file: temp)
         {
             Image image = new Image(file.toURI().toString());
@@ -144,7 +136,7 @@ public class FooterController implements Initializable {
             try {
                 handleSongImageButtonClick();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Modal cannot be opened");
             }
         });
 
@@ -187,7 +179,6 @@ public class FooterController implements Initializable {
                 @Override
                 public void run() {
                     // Duration and Label
-                    Duration duration = mediaPlayer.getMedia().getDuration();
 
                     double current = mediaPlayer.getCurrentTime().toSeconds();
                     double end = mediaPlayer.getTotalDuration().toSeconds();
@@ -306,7 +297,7 @@ public class FooterController implements Initializable {
         if (task != null) {
             task.cancel();
         }
-        prevSong = songNumber;
+        int prevSong = songNumber;
 
         if (songNumber < songs.size() -1 && !shuffle)
             songNumber++;
@@ -366,7 +357,7 @@ public class FooterController implements Initializable {
         System.out.println("Set current song is called");
     }
     @FXML
-    void prevMusic(ActionEvent event) throws IOException {
+    void prevMusic(ActionEvent event) {
         if(mediaPlayer == null)
             return;
 

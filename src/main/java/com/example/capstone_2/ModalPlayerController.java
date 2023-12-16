@@ -1,19 +1,13 @@
 package com.example.capstone_2;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import com.example.capstone_2.util.Functions;
 import com.example.capstone_2.util.StylesHandler;
-import javafx.animation.Timeline;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,16 +19,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-//TODO FIX LAGGY AND DUPLICATING AUDIO MIGHT BE CREATING NEW INSTANCES BUT DONT KNOW WHERE
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 
 public class ModalPlayerController {
     private MainController main;
 
-    @FXML
-    private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+
+
 
     @FXML
     private Label Artist;
@@ -71,14 +66,12 @@ public class ModalPlayerController {
     FooterController footerController;
 
     private Timer timer;
-    private  TimerTask task;
-    private Parent root;
-    private  Timeline timeline;
-    private Map<String, Image> images = new HashMap<String, Image>();
-    private File songs_directory, icon_directory;
+
+    private final Map<String, Image> images = new HashMap<String, Image>();
+    private File icon_directory;
     int repeatState  = 0; //1 for no repeat //2 for repeat whole playlist // 3 for repeat song;
 
-    boolean running = false , shuffle = false;
+    boolean shuffle = false;
 
     public void init(MainController mainController)
     {
@@ -100,6 +93,7 @@ public class ModalPlayerController {
             Title.setText(footerController.songLabel.getText());
             songImage.setImage(footerController.songImage.getImage());
         });
+
         if(footerController.shuffle)
         {
             shuffleButton.setImage(images.get("shuffle-toggled"));
@@ -168,6 +162,7 @@ public class ModalPlayerController {
             System.out.println("File not found!!!!!!!!!!!!!!!!!!!");
         }
         File[] temp = icon_directory.listFiles();
+        assert temp != null;
         for(File file: temp)
         {
             Image image = new Image(file.toURI().toString());
@@ -183,16 +178,15 @@ public class ModalPlayerController {
         if (footerController.mediaPlayer != null) {
             synchronized (footerController.mediaPlayer) {
                 if (timer != null) {
-                    timer.cancel(); // Cancel the previous task
+                    timer.cancel();
                 }
 
                 timer = new Timer();
-                task = new TimerTask() {
+
+                TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
                         Platform.runLater(() -> {
-                            // Duration and Label
-                            Duration duration = footerController.mediaPlayer.getMedia().getDuration();
 
                             double current = footerController.mediaPlayer.getCurrentTime().toSeconds();
                             double end = footerController.mediaPlayer.getTotalDuration().toSeconds();
@@ -270,15 +264,11 @@ public class ModalPlayerController {
         } catch (IOException e) {
             System.err.println("Cannot Forward Music");
         }
-        Platform.runLater(new Runnable() {
-            @Override public void run() {
-                setData();
-            }
-        });
+        Platform.runLater(this::setData);
         System.out.println("Setting data");
     }
     @FXML
-    void forwardMusic(MouseEvent event) throws IOException {
+    void forwardMusic(MouseEvent event) {
 
         try {
             footerController.forwardMusic(new ActionEvent());
@@ -303,18 +293,15 @@ public class ModalPlayerController {
     }
 
     @FXML
-    void prevMusic(MouseEvent event) throws IOException {
+    void prevMusic(MouseEvent event)  {
         footerController.prevMusic(new ActionEvent());
         setData();
     }
     @FXML
     void closeScene(MouseEvent event) {
         Scene currentScene = CloseButton.getScene();
-
-        // Get the stage associated with the current scene
         Stage currentStage = (Stage) currentScene.getWindow();
 
-        // Close the stage
         currentStage.close();
 
     }

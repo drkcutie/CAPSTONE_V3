@@ -2,6 +2,7 @@ package com.example.capstone_2.util;
 
 
 import javafx.scene.image.Image;
+import org.apache.commons.io.FilenameUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -9,16 +10,12 @@ import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.datatype.Artwork;
-import org.apache.commons.io.FilenameUtils;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,7 +56,7 @@ public class Functions {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Cannot read audiofile.");
         }
         if(Objects.equals(metadata.get("Title"), ""))
         {
@@ -104,9 +101,9 @@ public class Functions {
             }
 
         } catch (CannotReadException | InvalidAudioFrameException e) {
-            e.printStackTrace();
+            System.err.println("Frame is invalid or Corrupted Metadata");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Cannot process image.");
         }
         return image;
     }
@@ -125,9 +122,7 @@ public class Functions {
     public static boolean checkFile(File file){
         if(file.isFile() && file.exists()){
             String filename = file.getName().toLowerCase();
-            if(filename.endsWith(".mp3") || filename.endsWith(".m4a") || filename.endsWith(".m4v") || filename.endsWith(".wav")){
-                return true;
-            }
+            return filename.endsWith(".mp3") || filename.endsWith(".m4a") || filename.endsWith(".m4v") || filename.endsWith(".wav");
         }
 
         return false;

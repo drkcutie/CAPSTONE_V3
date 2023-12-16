@@ -15,20 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javafx.scene.control.Label;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class LibraryController {
 
     @FXML
     private ImageView addPlaylist;
 
-    @FXML
-    private Label libraryID;
     private PlaylistTabController playlistController;
-    private File songs_directory, icon_directory;
-    private Map<String, Image> images = new HashMap<String, Image>();
+    private File icon_directory;
+    private final Map<String, Image> images;
+
+    {
+        images = new HashMap<>();
+    }
 
 
     @FXML
@@ -74,7 +73,6 @@ public class LibraryController {
                         try {
                             Files.copy(file.toPath(), new File(newPlaylistFolder, file.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
                         } catch (Exception e) {
-                            e.printStackTrace();
                             System.err.println("Failed to copy file: " + file.getName());
                         }
                         playlistController.refresh();
@@ -88,7 +86,7 @@ public class LibraryController {
         }
     }
     @FXML
-    void initialize()
+    private void initialize()
     {
         try {
             icon_directory = new File("src/img/Icons");
@@ -96,6 +94,7 @@ public class LibraryController {
             System.out.println("File not found!!!!!!!!!!!!!!!!!!!");
         }
         File[] temp = icon_directory.listFiles();
+        assert temp != null;
         for(File file: temp)
         {
             Image image = new Image(file.toURI().toString());

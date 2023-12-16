@@ -4,13 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 
 public class MainController {
-    public BorderPane Main;
+        public BorderPane Main;
+        @FXML
+    private PlaylistTabController PlaylistController;
     @FXML
-private PlaylistTabController PlaylistController;
-@FXML
-SelectionController SelectionController;
-@FXML
-FooterController FooterController;
+    SelectionController SelectionController;
+    @FXML
+    FooterController FooterController;
 
 
 
