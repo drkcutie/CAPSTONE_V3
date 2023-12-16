@@ -1,0 +1,65 @@
+.label {
+    -fx-text-fill: white;
+}
+
+.root {
+    -fx-background-color: #202020;
+} /*Temporary since ang plano picture man daw dapat bg sa playlist name*/
+
+/*================================ Tab Header ============================*/
+.table-view{
+    -fx-margin: 20px;
+}
+.table-view .column-header, .table-view .column-header-background {
+    -fx-background-color: black;
+}
+
+.table-view .column-header .text {
+    -fx-font-family: verdana;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.table-cell, .table-row-cell {
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 0;
+}
+
+.table-row-cell .text {
+    -fx-font-family: verdana;
+    -fx-font-size: 20px;
+    -fx-font-weight: normal;
+    -fx-fill: white;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #202020;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #202020;
+}
+
+.table-row-cell:filled:selected:focused, .table-row-cell:filled:selected {
+    -fx-background-color: #5D5D5D;
+}
+
+.table-row-cell:filled:selected:focused:hover, .table-row-cell:filled:selected:hover {
+    -fx-background-color: #5D5D5D;
+}
+
+.table-row-cell:filled:selected .text, .table-row-cell:filled:selected:hover .text {
+    -fx-fill: #30D143;
+}
+
+.table-row-cell:filled:hover {
+    -fx-background-color: #808080;
+}
+
+.table-row-cell:playing .text {
+    -fx-fill: #5D5D5D;
+}

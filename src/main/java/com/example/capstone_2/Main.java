@@ -31,7 +31,7 @@ public class Main extends Application {
         }*/
         stage.setMinHeight(600);
         stage.setMinWidth(900);
-        stage.setTitle("Prototype!");
+        stage.setTitle("MUSIC PLAYER ");
         stage.setScene(scene);
         stage.show();
 
